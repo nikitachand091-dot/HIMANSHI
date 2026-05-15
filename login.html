@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Full Bright Shine - Hotel Reservation System</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* BACKGROUND */
+body{
+  height:100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display:flex;
+  flex-direction:column;
+}
+
+/* HEADER */
+header{
+  text-align:center;
+  padding:15px;
+  color:white;
+  font-size:22px;
+  font-weight:600;
+}
+
+/* NAVBAR */
+nav{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+nav a{
+  color:white;
+  margin:15px;
+  text-decoration:none;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+nav a:hover{
+  text-decoration:underline;
+}
+
+/* MAIN */
+.container{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* GLASS CARD */
+.card{
+  background: rgba(255,255,255,0.15);
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  width:320px;
+  text-align:center;
+  color:white;
+}
+
+/* INPUT */
+input, select{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border:none;
+  border-radius:8px;
+  outline:none;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:10px;
+  background:white;
+  color:#333;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#ddd;
+}
+
+/* FOOTER */
+footer{
+  background: rgba(0,0,0,0.3);
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+.footer-content{
+  display:flex;
+  justify-content:space-around;
+  flex-wrap:wrap;
+}
+
+.footer-box{
+  margin:10px;
+  max-width:200px;
+}
+
+.footer-box h3{
+  margin-bottom:8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  🏨 Full Bright Shine - Hotel Reservation System
+</header>
+
+<nav>
+  <a onclick="showSection('login')">Login</a>
+  <a onclick="showSection('register')">Register</a>
+  <a onclick="showSection('forgot')">Forgot Password</a>
+</nav>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="login" class="card">
+    <h2>Login</h2>
+    <form onsubmit="loginUser(event)">
+      <input type="text" placeholder="Username" required>
+      <input type="password" placeholder="Password" required>
+
+      <select id="role">
+        <option value="customer">Customer</option>
+        <option value="staff">Staff</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="register" class="card" style="display:none;">
+    <h2>Create Account</h2>
+    <form>
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+
+      <select>
+        <option>Customer</option>
+        <option>Staff</option>
+      </select>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <!-- FORGOT -->
+  <div id="forgot" class="card" style="display:none;">
+    <h2>Reset Password</h2>
+    <form>
+      <input type="email" placeholder="Enter Email" required>
+      <button type="submit">Send Link</button>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-box">
+      <h3>About</h3>
+      <p>Smart and secure hotel booking platform.</p>
+    </div>
+
+    <div class="footer-box">
+      <h3>Contact</h3>
+      <p>support@fullbrightshine.com</p>
+      <p>+91 9876543210</p>
+    </div>
+
+    <div class="footer-box">
+      <h3>Services</h3>
+      <p>Room Booking</p>
+      <p>Online Payment</p>
+    </div>
+
+    <div class="footer-box">
+      <h3>Follow</h3>
+      <p>Instagram | Facebook</p>
+    </div>
+  </div>
+
+  <p>© 2026 Full Bright Shine</p>
+</footer>
+
+<script>
+function showSection(section){
+  document.getElementById("login").style.display = "none";
+  document.getElementById("register").style.display = "none";
+  document.getElementById("forgot").style.display = "none";
+  document.getElementById(section).style.display = "block";
+}
+
+function loginUser(event){
+  event.preventDefault();
+  let role = document.getElementById("role").value;
+  alert("Welcome " + role + " 🎉");
+}
+</script>
+
+</body>
+</html>

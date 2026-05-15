@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Staff Panel - Full Bright Shine</title>
+
+<!-- ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{display:flex;background:#0b1120;color:#e2e8f0;}
+
+/* SIDEBAR */
+.sidebar{
+  width:240px;height:100vh;background:#111827;padding:20px;position:fixed;
+}
+.sidebar h2{text-align:center;margin-bottom:20px;color:#38bdf8;}
+.sidebar a{
+  display:block;padding:10px;margin:10px 0;border-radius:8px;
+  color:#cbd5f5;text-decoration:none;cursor:pointer;
+}
+.sidebar a:hover{background:#38bdf8;color:black;}
+
+/* MAIN */
+.main{margin-left:240px;padding:20px;width:100%;}
+
+/* HEADER */
+.header{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;
+}
+.staff-box{
+  background:#1e293b;padding:10px 15px;border-radius:10px;
+}
+
+/* CARD */
+.card{
+  background:#1e293b;padding:20px;border-radius:12px;margin-bottom:20px;
+}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;}
+th{background:#334155;}
+th,td{padding:10px;border-bottom:1px solid #444;text-align:center;}
+
+/* BUTTON */
+button{
+  padding:6px 12px;border:none;border-radius:6px;
+  background:#38bdf8;cursor:pointer;margin:2px;
+}
+button:hover{background:#0ea5e9;}
+
+/* FOOTER */
+footer{
+  background:#111827;padding:15px;text-align:center;
+  position:fixed;bottom:0;left:240px;width:calc(100% - 240px);
+}
+
+/* CONTENT */
+.content{padding-bottom:80px;}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>👩‍💼 Staff</h2>
+
+  <a onclick="showSection('dashboard')"><i class="fa fa-chart-line"></i> Dashboard</a>
+  <a onclick="showSection('reservation')"><i class="fa fa-calendar"></i> View Reservations</a>
+  <a onclick="showSection('update')"><i class="fa fa-edit"></i> Update Status</a>
+  <a onclick="showSection('customer')"><i class="fa fa-users"></i> Customer Support</a>
+  <a onclick="showSection('room')"><i class="fa fa-bed"></i> Room Availability</a>
+  <a onclick="showSection('payment')"><i class="fa fa-credit-card"></i> Payment Status</a>
+  <a onclick="logout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="header">
+  <h2>Staff Dashboard</h2>
+
+  <div class="staff-box">
+    <p><i class="fa fa-user"></i> Riya Sharma</p>
+    <p><i class="fa fa-id-card"></i> ID: ST102</p>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="card section">
+  <h3>📊 Daily Overview</h3>
+  <p>Total Bookings Today: 25</p>
+  <p>Check-ins: 10</p>
+  <p>Check-outs: 8</p>
+</div>
+
+<!-- RESERVATION -->
+<div id="reservation" class="card section" style="display:none;">
+  <h3>📅 Reservations</h3>
+  <table>
+    <tr><th>ID</th><th>Customer</th><th>Room</th><th>Status</th></tr>
+    <tr><td>101</td><td>Nikki</td><td>Deluxe</td><td>Pending</td></tr>
+    <tr><td>102</td><td>Riya</td><td>Suite</td><td>Confirmed</td></tr>
+    <tr><td>103</td><td>Aman</td><td>Standard</td><td>Pending</td></tr>
+  </table>
+</div>
+
+<!-- UPDATE STATUS -->
+<div id="update" class="card section" style="display:none;">
+  <h3>✏ Update Booking Status</h3>
+
+  <input type="text" id="resId" placeholder="Enter Reservation ID">
+
+  <input type="text" id="custName" placeholder="Customer Name" disabled>
+
+  <input type="text" id="currentStatus" placeholder="Current Status" disabled>
+
+  <select id="newStatus">
+    <option value="">Select New Status</option>
+    <option>Check-in</option>
+    <option>Check-out</option>
+    <option>Completed</option>
+  </select>
+
+  <button onclick="updateStatus()">Update Status</button>
+
+  <p id="msg" style="margin-top:10px;color:#38bdf8;"></p>
+
+  <hr style="margin:20px 0;">
+
+  <h4>Updated Records</h4>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Customer</th>
+      <th>Status</th>
+    </tr>
+    <tbody id="updateTable"></tbody>
+  </table>
+</div>
+
+<!-- CUSTOMER SUPPORT -->
+<div id="customer" class="card section" style="display:none;">
+  <h3>👥 Customer Support</h3>
+  <table>
+    <tr><th>Name</th><th>Email</th><th>Issue</th></tr>
+    <tr><td>Nikki</td><td>nikki@gmail.com</td><td>Booking delay</td></tr>
+    <tr><td>Rahul</td><td>rahul@gmail.com</td><td>Payment issue</td></tr>
+  </table>
+</div>
+
+<!-- ROOM -->
+<div id="room" class="card section" style="display:none;">
+  <h3>🛏 Room Availability</h3>
+  <table>
+    <tr><th>Room Type</th><th>Available</th></tr>
+    <tr><td>Deluxe</td><td>5</td></tr>
+    <tr><td>Suite</td><td>2</td></tr>
+    <tr><td>Standard</td><td>8</td></tr>
+  </table>
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="card section" style="display:none;">
+  <h3>💳 Payment Status</h3>
+  <table>
+    <tr><th>ID</th><th>User</th><th>Amount</th><th>Status</th></tr>
+    <tr><td>5001</td><td>Nikki</td><td>₹2000</td><td>Success</td></tr>
+    <tr><td>5002</td><td>Aman</td><td>₹1500</td><td>Pending</td></tr>
+  </table>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2026 Full Bright Shine | Staff Panel</p>
+</footer>
+
+</div>
+
+<script>
+function showSection(id){
+  let sections=document.querySelectorAll(".section");
+  sections.forEach(sec=>sec.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+function logout(){
+  window.location.href="login.html";
+}
+
+/* SAMPLE DATA */
+let reservations = [
+  {id:"101", name:"Nikki", status:"Pending"},
+  {id:"102", name:"Riya", status:"Confirmed"},
+  {id:"103", name:"Aman", status:"Pending"}
+];
+
+/* AUTO FILL */
+document.getElementById("resId").addEventListener("input", function(){
+  let id = this.value;
+  let res = reservations.find(r => r.id === id);
+
+  if(res){
+    document.getElementById("custName").value = res.name;
+    document.getElementById("currentStatus").value = res.status;
+  } else {
+    document.getElementById("custName").value = "";
+    document.getElementById("currentStatus").value = "";
+  }
+});
+
+/* UPDATE */
+function updateStatus(){
+  let id = document.getElementById("resId").value;
+  let newStatus = document.getElementById("newStatus").value;
+
+  let res = reservations.find(r => r.id === id);
+
+  if(!res || newStatus === ""){
+    document.getElementById("msg").innerText = "❌ Invalid input!";
+    return;
+  }
+
+  res.status = newStatus;
+
+  document.getElementById("msg").innerText = "✅ Status Updated!";
+
+  showUpdatedTable();
+}
+
+/* SHOW TABLE */
+function showUpdatedTable(){
+  let table = document.getElementById("updateTable");
+  table.innerHTML = "";
+
+  reservations.forEach(r=>{
+    table.innerHTML += `
+      <tr>
+        <td>${r.id}</td>
+        <td>${r.name}</td>
+        <td>${r.status}</td>
+      </tr>
+    `;
+  });
+}
+
+/* LOAD DEFAULT TABLE */
+showUpdatedTable();
+</script>
+
+</body>
+</html>

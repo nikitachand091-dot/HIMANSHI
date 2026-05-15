@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel - Full Bright Shine</title>
+
+<!-- ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  display:flex;
+  background:#0b1120;
+  color:#e2e8f0;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:240px;
+  height:100vh;
+  background:#111827;
+  padding:20px;
+  position:fixed;
+}
+
+.sidebar h2{
+  text-align:center;
+  margin-bottom:20px;
+  color:#38bdf8;
+}
+
+.sidebar a{
+  display:block;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  color:#cbd5f5;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.sidebar a:hover{
+  background:#38bdf8;
+  color:black;
+}
+
+/* MAIN */
+.main{
+  margin-left:240px;
+  padding:20px;
+  width:100%;
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.admin-box{
+  background:#1e293b;
+  padding:10px 15px;
+  border-radius:10px;
+}
+
+/* CARD */
+.card{
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th{
+  background:#334155;
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid #444;
+}
+
+/* BUTTON */
+button{
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:#38bdf8;
+  cursor:pointer;
+  margin:2px;
+}
+
+button:hover{
+  background:#0ea5e9;
+}
+
+/* INPUT */
+input{
+  padding:8px;
+  margin:5px;
+  border-radius:6px;
+  border:none;
+}
+
+/* FOOTER */
+footer{
+  background:#111827;
+  padding:15px;
+  text-align:center;
+  position:fixed;
+  bottom:0;
+  left:240px;
+  width:calc(100% - 240px);
+}
+
+/* CONTENT SPACE */
+.content{
+  padding-bottom:80px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>🏨 Admin</h2>
+
+  <a onclick="showSection('dashboard')"><i class="fa fa-chart-line"></i> Dashboard</a>
+  <a onclick="showSection('customer')"><i class="fa fa-users"></i> Customers</a>
+  <a onclick="showSection('room')"><i class="fa fa-bed"></i> Rooms</a>
+  <a onclick="showSection('reservation')"><i class="fa fa-calendar"></i> Reservations</a>
+  <a onclick="showSection('pricing')"><i class="fa fa-tags"></i> Pricing</a>
+  <a onclick="showSection('transaction')"><i class="fa fa-credit-card"></i> Transactions</a>
+  <a onclick="logout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="header">
+  <h2>Full Bright Shine Dashboard</h2>
+
+  <div class="admin-box">
+    <p><i class="fa fa-user"></i> Aman Choudhary</p>
+    <p><i class="fa fa-envelope"></i> amanchoudhary1481@gmail.com</p>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="card section">
+  <h3>📊 Dashboard Overview</h3>
+  <canvas id="chart" height="100"></canvas>
+</div>
+
+<!-- CUSTOMER -->
+<div id="customer" class="card section" style="display:none;">
+  <h3>👥 Customer Management</h3>
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>1</td><td>Nikki</td><td>nikki@gmail.com</td><td>9876543210</td><td>Active</td>
+<td><button>Edit</button><button>Delete</button></td>
+</tr>
+
+<tr>
+<td>2</td><td>Riya</td><td>riya@gmail.com</td><td>9123456780</td><td>Active</td>
+<td><button>Edit</button><button>Delete</button></td>
+</tr>
+
+<tr>
+<td>3</td><td>Aman</td><td>aman@gmail.com</td><td>9012345678</td><td>Inactive</td>
+<td><button>Edit</button><button>Delete</button></td>
+</tr>
+
+<tr>
+<td>4</td><td>Rahul</td><td>rahul@gmail.com</td><td>9988776655</td><td>Active</td>
+<td><button>Edit</button><button>Delete</button></td>
+</tr>
+
+<tr>
+<td>5</td><td>Priya</td><td>priya@gmail.com</td><td>8899776655</td><td>Active</td>
+<td><button>Edit</button><button>Delete</button></td>
+</tr>
+</table>
+</div>
+
+<!-- ROOM -->
+<div id="room" class="card section" style="display:none;">
+  <h3>🛏 Room Management</h3>
+  <input type="text" placeholder="Room Type">
+  <input type="number" placeholder="Price">
+  <button>Add Room</button>
+</div>
+
+<!-- RESERVATION -->
+<div id="reservation" class="card section" style="display:none;">
+  <h3>📅 Reservation Management</h3>
+<table>
+<tr>
+<th>Res ID</th>
+<th>Customer</th>
+<th>Room Type</th>
+<th>Check-In</th>
+<th>Check-Out</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>101</td><td>Nikki</td><td>Deluxe</td><td>10 Apr</td><td>12 Apr</td><td>Pending</td>
+<td><button>Approve</button><button>Reject</button></td>
+</tr>
+
+<tr>
+<td>102</td><td>Riya</td><td>Suite</td><td>11 Apr</td><td>14 Apr</td><td>Confirmed</td>
+<td><button>View</button></td>
+</tr>
+
+<tr>
+<td>103</td><td>Aman</td><td>Standard</td><td>12 Apr</td><td>13 Apr</td><td>Cancelled</td>
+<td><button>View</button></td>
+</tr>
+
+<tr>
+<td>104</td><td>Rahul</td><td>Deluxe</td><td>15 Apr</td><td>18 Apr</td><td>Pending</td>
+<td><button>Approve</button><button>Reject</button></td>
+</tr>
+
+<tr>
+<td>105</td><td>Priya</td><td>Suite</td><td>20 Apr</td><td>22 Apr</td><td>Confirmed</td>
+<td><button>View</button></td>
+</tr>
+</table>
+</div>
+
+<!-- PRICING -->
+<div id="pricing" class="card section" style="display:none;">
+  <h3>💰 Pricing</h3>
+  <input type="number" placeholder="New Price">
+  <button>Update</button>
+</div>
+
+<!-- TRANSACTION -->
+<div id="transaction" class="card section" style="display:none;">
+  <h3>💳 Transactions</h3>
+  <table>
+    <tr><th>ID</th><th>User</th><th>Amount</th></tr>
+    <tr><td>5001</td><td>Nikki</td><td>₹2000</td></tr>
+  </table>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2026 Full Bright Shine | Admin Panel</p>
+</footer>
+
+</div>
+
+<script>
+function showSection(id){
+  let sections=document.querySelectorAll(".section");
+  sections.forEach(sec=>sec.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+function logout(){
+  window.location.href="login.html";
+}
+
+/* CHART */
+const ctx = document.getElementById('chart');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr'],
+    datasets: [{
+      label: 'Bookings',
+      data: [10,20,15,25],
+      backgroundColor: '#38bdf8'
+    }]
+  }
+});
+</script>
+
+</body>
+</html>

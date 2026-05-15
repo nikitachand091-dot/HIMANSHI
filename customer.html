@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Customer Panel - Full Bright Shine</title>
+
+<!-- ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{display:flex;background:#0b1120;color:#e2e8f0;}
+
+/* SIDEBAR */
+.sidebar{
+  width:240px;height:100vh;background:#111827;padding:20px;position:fixed;
+}
+.sidebar h2{text-align:center;margin-bottom:20px;color:#38bdf8;}
+.sidebar a{
+  display:block;padding:10px;margin:10px 0;border-radius:8px;
+  color:#cbd5f5;text-decoration:none;cursor:pointer;
+}
+.sidebar a:hover{background:#38bdf8;color:black;}
+
+/* MAIN */
+.main{margin-left:240px;padding:20px;width:100%;}
+
+/* HEADER */
+.header{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;
+}
+.user-box{
+  background:#1e293b;padding:10px 15px;border-radius:10px;
+}
+
+/* CARD */
+.card{
+  background:#1e293b;padding:20px;border-radius:12px;margin-bottom:20px;
+}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;}
+th{background:#334155;}
+th,td{padding:10px;border-bottom:1px solid #444;text-align:center;}
+
+/* INPUT */
+input,select{
+  padding:8px;margin:5px;border-radius:6px;border:none;
+}
+
+/* BUTTON */
+button{
+  padding:8px 15px;border:none;border-radius:6px;
+  background:#38bdf8;cursor:pointer;
+}
+button:hover{background:#0ea5e9;}
+
+/* ROOM CARDS */
+.rooms{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+.room{
+  background:#334155;
+  padding:15px;
+  border-radius:10px;
+  width:200px;
+}
+
+/* FOOTER */
+footer{
+  background:#111827;
+  padding:15px;
+  text-align:center;
+  position:fixed;
+  bottom:0;
+  left:240px;
+  width:calc(100% - 240px);
+}
+
+/* CONTENT */
+.content{padding-bottom:80px;}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>👤 Customer</h2>
+
+  <a onclick="showSection('dashboard')"><i class="fa fa-home"></i> Dashboard</a>
+  <a onclick="showSection('profile')"><i class="fa fa-user"></i> My Profile</a>
+  <a onclick="showSection('rooms')"><i class="fa fa-bed"></i> Search Rooms</a>
+  <a onclick="showSection('book')"><i class="fa fa-calendar-plus"></i> Book Room</a>
+  <a onclick="showSection('reservation')"><i class="fa fa-list"></i> My Reservations</a>
+  <a onclick="showSection('payment')"><i class="fa fa-credit-card"></i> Payment</a>
+  <a onclick="showSection('notify')"><i class="fa fa-bell"></i> Notifications</a>
+  <a onclick="logout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="header">
+  <h2>Welcome Nikki 👋</h2>
+  <div class="user-box">
+    <p><i class="fa fa-envelope"></i> nikki@gmail.com</p>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="card section">
+  <h3>📊 Booking Summary</h3>
+  <div style="width:250px; margin:auto;">
+    <canvas id="chart"></canvas>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="card section" style="display:none;">
+  <h3>👤 My Profile</h3>
+  <input type="text" placeholder="Full Name"><br>
+  <input type="email" placeholder="Email"><br>
+  <input type="text" placeholder="Phone"><br>
+  <button>Update Profile</button>
+</div>
+
+<!-- ROOMS -->
+<div id="rooms" class="card section" style="display:none;">
+  <h3>🛏 Available Rooms</h3>
+  <div class="rooms">
+    <div class="room">
+      <h4>Deluxe</h4>
+      <p>₹2000/night</p>
+      <button>Book</button>
+    </div>
+    <div class="room">
+      <h4>Suite</h4>
+      <p>₹3500/night</p>
+      <button>Book</button>
+    </div>
+    <div class="room">
+      <h4>Standard</h4>
+      <p>₹1500/night</p>
+      <button>Book</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOOK -->
+<div id="book" class="card section" style="display:none;">
+  <h3>📅 Book Room</h3>
+
+  <input type="text" placeholder="Full Name"><br>
+
+  <select>
+    <option>Select Room Type</option>
+    <option>Deluxe</option>
+    <option>Suite</option>
+    <option>Standard</option>
+  </select><br>
+
+  <label>Check-in Date</label><br>
+  <input type="date"><br>
+
+  <label>Check-out Date</label><br>
+  <input type="date"><br>
+
+  <input type="number" placeholder="Number of Guests"><br>
+
+  <input type="text" placeholder="Special Requests (optional)"><br>
+
+  <button onclick="bookRoom()">Confirm Booking</button>
+
+  <p id="bookingMsg" style="margin-top:10px;color:#38bdf8;"></p>
+</div>
+
+<!-- RESERVATION -->
+<div id="reservation" class="card section" style="display:none;">
+  <h3>📋 My Reservations</h3>
+  <table>
+    <tr><th>ID</th><th>Room</th><th>Status</th></tr>
+    <tr><td>101</td><td>Deluxe</td><td>Confirmed</td></tr>
+    <tr><td>102</td><td>Suite</td><td>Pending</td></tr>
+  </table>
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="card section" style="display:none;">
+  <h3>💳 Payment</h3>
+  <input type="text" placeholder="Card Number">
+  <input type="text" placeholder="CVV">
+  <button>Pay Now</button>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="notify" class="card section" style="display:none;">
+  <h3>🔔 Notifications</h3>
+  <p>✔ Booking Confirmed</p>
+  <p>✔ Payment Successful</p>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2026 Full Bright Shine | Customer Panel</p>
+</footer>
+
+</div>
+
+<script>
+function showSection(id){
+  let sections=document.querySelectorAll(".section");
+  sections.forEach(sec=>sec.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+function logout(){
+  window.location.href="login.html";
+}
+
+/* CHART */
+new Chart(document.getElementById("chart"), {
+  type: 'doughnut',
+  data: {
+    labels: ['Confirmed','Pending'],
+    datasets: [{
+      data: [3,2],
+      backgroundColor: ['#38bdf8','#facc15']
+    }]
+  }
+});
+</script>
+
+</body>
+</html>
